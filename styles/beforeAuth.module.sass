@@ -1,0 +1,67 @@
+.form
+  background: #8389DA
+  width: 100vw
+  height: 100vh
+  display: flex
+  flex-direction: row
+  justify-content: center
+  align-items: center
+  gap: 100px
+  transition: 0.5s
+  color: #FEDAE3
+  font-size: 20px
+
+  >div
+    margin: 100px
+    width: 50%
+    height: 70vh
+    background: #454777
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    border-radius: 100%
+    transition: 0.5s
+
+    .submit
+      background: #8C8EAC
+
+
+
+    input
+      all: unset
+      margin-bottom: 30px
+      width: 40%
+      height: 2%
+      opacity: 80%
+      padding: 20px
+      font-size: 19px
+      background: #8C8EAC
+      border-radius: 10%
+
+
+
+.initBottom
+  transform: translateY(100%)
+  pointer-events: none
+
+.initTop
+  transform: translateY(-100%)
+  pointer-events: none
+
+
+.initBottomNone
+  //transform: translateY(100%)
+  display: none
+
+.initTopNone
+  //transform: translateY(-100%)
+  display: none
+
+
+.startBtn
+  background: coral
+  position: absolute
+  left: 0
+  right: 0
+  z-index: 3
