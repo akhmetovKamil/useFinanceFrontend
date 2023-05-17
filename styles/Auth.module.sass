@@ -1,31 +1,28 @@
 .form
-  background: #8389DA
   width: 100vw
   height: 100vh
+  background: #8389DA
+  font-size: 20px
   display: flex
   flex-direction: row
   justify-content: center
   align-items: center
   gap: 100px
-  transition: 0.5s
-  color: #FEDAE3
-  font-size: 20px
 
-  >form,div
+
+
+  >form,>div
     margin: 100px
     width: 50%
     height: 70vh
+    border-radius: 100%
     background: #454777
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
-    border-radius: 100%
-    transition: 0.5s
-
-    .submit
-      background: #8C8EAC
-
+    transition: 1s
+    opacity: 1
 
 
     input
@@ -36,34 +33,17 @@
       opacity: 80%
       padding: 20px
       font-size: 19px
+      text-align: center
       background: #8C8EAC
       border-radius: 10%
 
+    .errorInput
+      border: darkred 5px solid
 
+    .errorMessage
+      background: blue
 
-.initBottom
-  transform: translateY(100%)
-  pointer-events: none
-
-.initTop
+.animTop
   transform: translateY(-100%)
-  pointer-events: none
-
-
-.makeNone
-  display: none !important
-
-
-
-.startBtn
-  background: coral
-  position: absolute
-  left: 0
-  right: 0
-  z-index: 3
-
-
-
-
-.requiredMessage
-  background: blue
+.animBottom
+  transform: translateY(100%)
