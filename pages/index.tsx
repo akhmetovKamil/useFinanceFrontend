@@ -1,11 +1,17 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import BeforeAuthPage from "@/pages/beforeAuth";
 import AuthPage from "@/pages/Auth";
+import Main from "@/pages/Main";
+import {authApi} from "@/axios/api";
 
 const inter = Inter({ subsets: ['latin'] })
 
 export default function Home() {
+    const test = () => {
+        const res = authApi.register({
+            email:"jwtnext@gmail.com",
+                password: "123456789g"}).then(res => console.log(res))
+    }
   return (
     <>
       <Head>
@@ -14,7 +20,12 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <AuthPage />
+        {/*{*/}
+        {/*    localStorage.getItem("jwt") ?*/}
+        {/*    <AuthPage /> : <Main />*/}
+        {/*}*/}
+        <button onClick={()=>test()}>Test</button>
+
     </>
   )
 }

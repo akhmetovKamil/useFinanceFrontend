@@ -6,7 +6,7 @@ import {useForm} from "react-hook-form";
 const AuthForm = React.forwardRef((props, ref) => {
     const {handleSubmit, register, formState: {errors}} = useForm()
 
-    const tempSubmit = data => console.log(data)
+    const tempSubmit = () => console.log("auth")
 
 
     return (
