@@ -3,14 +3,18 @@ import axios from "axios";
 const base = axios.create({
     baseURL: 'http://localhost:3002/api/auth'
 });
-
+interface registerDTO{
+    email: string,
+    name: string,
+    password: string
+}
 export const authApi = {
-    register(obj){
+    register(obj : registerDTO){
         return base.post("register",{
             email: obj.email,
             password: obj.password,
             name: obj.name
-        }).then(response => response.data)
+        })
     },
     login(obj){
         return base.post("login",{
