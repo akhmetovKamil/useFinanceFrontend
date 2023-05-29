@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
 import {registerThunk} from "@/store/reducers/authReducer";
-import {AuthDto} from "@/axios/api";
+import {AuthorizationDto} from "@/types/auth";
 
 
 const RegForm = React.forwardRef((props, ref) => {
@@ -12,7 +12,7 @@ const RegForm = React.forwardRef((props, ref) => {
     const dispatch = useDispatch()
     // const state = useSelectorWithType(state => state.auth)
 
-    const onSubmit = (e: AuthDto) => {
+    const onSubmit = (e: AuthorizationDto) => {
         const obj = {
             email: e.email,
             name: e.name,
@@ -60,7 +60,6 @@ const RegForm = React.forwardRef((props, ref) => {
                 {errors.password && errors.password.type=="minLength" && <p className={s.errorMessage}>Password min length is 8</p>}
                 {errors.password && errors.password.type=="maxLength" && <p className={s.errorMessage}>Password max length is 16</p>}
             </div>
-
             <input type="submit"/>
         </form>
     )

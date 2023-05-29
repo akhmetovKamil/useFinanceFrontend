@@ -1,15 +1,16 @@
 import Head from 'next/head'
 import {Inter} from 'next/font/google'
-import {useDispatch, useSelector} from "react-redux";
-import {register} from "@/store/reducers/authReducer";
 import React from "react";
-import {useSelectorWithType} from "@/hooks/useSelectorWithType";
 import AuthPage from "@/pages/Auth";
+import {useSelector} from "react-redux";
+import {useSelectorWithType} from "@/hooks/useSelectorWithType";
+import Main from "@/pages/Main";
 
 const inter = Inter({subsets: ['latin']})
 
 export default function Home(){
 
+    const {isAuth} = useSelectorWithType(state => state.auth)
 
     return (
         <>
@@ -19,7 +20,9 @@ export default function Home(){
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <AuthPage />
+            {
+                isAuth ? <Main /> : <AuthPage />
+            }
         </>
     )
 }

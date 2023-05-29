@@ -1,8 +1,9 @@
-import {authApi, AuthDto, errorResponse, registerResponse} from "@/axios/api";
-import {AuthActions, AuthActionsConst, IAuthState, receivedData} from "@/store/types/auth";
+import {authApi} from "@/axios/api";
+import {AuthActions, AuthorizationDto, IAuthState, receivedData} from "@/types/auth";
+import {AuthActionsConst} from "@/types/constants";
 import {Dispatch} from "redux";
 import axios from "axios";
-import {Errors} from "@/store/constants";
+import {Errors} from "@/types/constants";
 
 
 export const initialState: IAuthState = {
@@ -29,7 +30,7 @@ export const setRegister = (isAuth): AuthActions => ({type:AuthActionsConst.REGI
 export const setFetching = (isFetching): AuthActions => ({type:AuthActionsConst.FETCH_DATA,payload: isFetching})
 export const setError = (error): AuthActions => ({type:AuthActionsConst.ERROR,payload: error})
 
-export const registerThunk = (obj: AuthDto) => (dispatch: Dispatch<AuthActions>) => {
+export const registerThunk = (obj: AuthorizationDto) => (dispatch: Dispatch<AuthActions>) => {
     dispatch(setFetching(true))
     authApi.register(obj).then((data: axios.AxiosResponse<receivedData>) => {
         const {refresh_token,access_token} = data.data
@@ -41,6 +42,7 @@ export const registerThunk = (obj: AuthDto) => (dispatch: Dispatch<AuthActions>)
         switch (e){
             case Errors.ALREADY_REGISTERED:
                 console.log("already",e)
+                dispatch(setError(e))
                 return
             case Errors.SERVER_ERROR:
                 console.log("already",e)
@@ -53,10 +55,4 @@ export const registerThunk = (obj: AuthDto) => (dispatch: Dispatch<AuthActions>)
                 return
         }
     })
-
-        // .catch(e => {
-        //
-        //     console.log("second catch",e)
-        //     dispatch(setError(e))
-        // })
 }

@@ -2,9 +2,6 @@ import s from "../styles/Auth.module.sass"
 import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import RegForm from "@/components/forms/regForm";
 import AuthForm from "@/components/forms/authForm";
-import {useDispatch} from "react-redux";
-import {useSelectorWithType} from "@/hooks/useSelectorWithType";
-import {register} from "@/store/reducers/authReducer";
 
 export default function AuthPage(){
     const regForm = useRef() as MutableRefObject<HTMLElement>

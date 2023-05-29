@@ -1,14 +1,14 @@
 import React from "react";
 import s from "@/styles/Auth.module.sass";
 import {useForm} from "react-hook-form";
-import {AuthDto} from "@/axios/api";
+import {AuthorizationDto} from "@/types/auth";
 import {registerThunk} from "@/store/reducers/authReducer";
 import {useDispatch} from "react-redux";
 
 const AuthForm = React.forwardRef((props, ref) => {
     const {handleSubmit, register, formState: {errors}} = useForm()
     const dispatch = useDispatch()
-    const onSubmit = (e: AuthDto) => {
+    const onSubmit = (e: AuthorizationDto) => {
         const obj = {
             email: e.email,
             password: e.password

@@ -1,19 +1,13 @@
 import axios from "axios";
-import {receivedData} from "@/store/types/auth";
-import {Errors} from "@/store/constants";
+import {AuthorizationDto, receivedData} from "@/types/auth";
+import {Errors} from "@/types/constants";
 
 const base = axios.create({
     baseURL: 'http://localhost:3002/api/auth'
 });
-export interface AuthDto {
-    email: string,
-    name?: string,
-    password: string
-}
-export type errorResponse =  Errors.CONNECTION_ERROR | Errors.ALREADY_REGISTERED | Errors.SERVER_ERROR | Errors.UNEXPECTED_ERROR;
 
 export const authApi = {
-    register(obj : AuthDto): Promise<axios.AxiosResponse<receivedData> | void>{
+    register(obj : AuthorizationDto): Promise<axios.AxiosResponse<receivedData> | void>{
         return base.post("register",{
             email: obj.email,
             password: obj.password,
@@ -39,14 +33,14 @@ export const authApi = {
     logout(obj){
         return base.post("logout",{
             headers:{
-                Authorization: obj.accessToken
+                Authorization: `Bearer ${obj.access_token}`
             }
         }).then(response => response.data)
     },
     refresh(obj){
         return base.post("refresh",{
             headers:{
-                Authorization: obj.refreshToken
+                Authorization: `Bearer ${obj.refresh_token}`
             }
         }).then(response => response.data)
     },

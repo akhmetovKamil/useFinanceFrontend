@@ -5,3 +5,11 @@ export enum Errors{
     SERVER_ERROR = 'Ошибка на сервере 404',
     UNEXPECTED_ERROR = 'Неизвестная ошибка'
 }
+export enum AuthActionsConst {
+    REGISTER = "REGISTER",
+    LOGIN = "LOGIN",
+    LOGOUT = "LOGOUT",
+    REFRESH = "REFRESH",
+    FETCH_DATA = "FETCH_DATA",
+    ERROR = "ERROR"
+}
