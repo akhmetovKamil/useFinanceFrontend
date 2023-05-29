@@ -1,9 +1,12 @@
 import s from "../styles/Auth.module.sass"
-import {MutableRefObject, useEffect, useRef, useState} from "react";
+import React, {MutableRefObject, useEffect, useRef, useState} from "react";
 import RegForm from "@/components/forms/regForm";
 import AuthForm from "@/components/forms/authForm";
+import {useDispatch} from "react-redux";
+import {useSelectorWithType} from "@/hooks/useSelectorWithType";
+import {register} from "@/store/reducers/authReducer";
 
-export default function AuthPage() {
+export default function AuthPage(){
     const regForm = useRef() as MutableRefObject<HTMLElement>
     const authForm = useRef() as MutableRefObject<HTMLElement>
     const regBtn = useRef() as MutableRefObject<HTMLDivElement>
@@ -14,8 +17,9 @@ export default function AuthPage() {
         regBtn.current.classList.toggle(s.animTop)
         authForm.current.style.display = "none"
         regBtn.current.style.display = "none"
-        console.log("use effect")
     }, [])
+
+
 
     const animStart = (activeForm: MutableRefObject<HTMLElement>, activeBtn: MutableRefObject<HTMLDivElement>,
                        passiveForm: MutableRefObject<HTMLElement>, passiveBtn: MutableRefObject<HTMLDivElement>,) => {

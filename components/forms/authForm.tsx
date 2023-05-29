@@ -1,16 +1,24 @@
 import React from "react";
 import s from "@/styles/Auth.module.sass";
 import {useForm} from "react-hook-form";
-
+import {AuthDto} from "@/axios/api";
+import {registerThunk} from "@/store/reducers/authReducer";
+import {useDispatch} from "react-redux";
 
 const AuthForm = React.forwardRef((props, ref) => {
     const {handleSubmit, register, formState: {errors}} = useForm()
-
-    const tempSubmit = () => console.log("auth")
-
+    const dispatch = useDispatch()
+    const onSubmit = (e: AuthDto) => {
+        const obj = {
+            email: e.email,
+            password: e.password
+        }
+        dispatch(registerThunk(obj))
+        // LoginThunk
+    }
 
     return (
-        <form ref={ref} onSubmit={handleSubmit(tempSubmit)}>
+        <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <label htmlFor="email">Почта</label>
                 <input {...register("email", {
@@ -40,7 +48,6 @@ const AuthForm = React.forwardRef((props, ref) => {
                 {errors.password && errors.password.type == "maxLength" &&
                     <p className={s.errorMessage}>Password max length is 16</p>}
             </div>
-
             <input type="submit"/>
         </form>
     )

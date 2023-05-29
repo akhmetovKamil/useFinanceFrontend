@@ -1,26 +1,16 @@
 import Head from 'next/head'
 import {Inter} from 'next/font/google'
-import AuthPage from "@/pages/Auth";
-import Main from "@/pages/Main";
 import {useDispatch, useSelector} from "react-redux";
 import {register} from "@/store/reducers/authReducer";
+import React from "react";
+import {useSelectorWithType} from "@/hooks/useSelectorWithType";
+import AuthPage from "@/pages/Auth";
 
 const inter = Inter({subsets: ['latin']})
 
-export default function Home() {
-    const dispatch = useDispatch()
-    const state = useSelector((state) => state.auth)
+export default function Home(){
 
-    // const auth = useSelector(state)
-    const test = () => {
-        const obj = {
-            email: "1j2wtafs3a2next@gmail.com",
-            name: "test",
-            password: "123456789g"
-        }
-        dispatch(register(obj))
-    }
-    // const res = authApi.register().then(res => console.log(res))
+
     return (
         <>
             <Head>
@@ -29,14 +19,7 @@ export default function Home() {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            {/*{*/}
-            {/*    localStorage.getItem("jwt") ?*/}
-            {/*    <AuthPage /> : <Main />*/}
-            {/*}*/}
-            <button onClick={() => test()}>Test</button>
-            {state.isAuth ? <div>Авторизован</div> : <div>Не авторизован</div>}
-
-
+            <AuthPage />
         </>
     )
 }

@@ -1,15 +1,28 @@
 import React from "react";
 import s from "@/styles/Auth.module.sass";
 import {useForm} from "react-hook-form";
+import {useDispatch} from "react-redux";
+import {useSelectorWithType} from "@/hooks/useSelectorWithType";
+import {registerThunk} from "@/store/reducers/authReducer";
+import {AuthDto} from "@/axios/api";
 
 
 const RegForm = React.forwardRef((props, ref) => {
     const {handleSubmit, register, formState: {errors}} = useForm()
+    const dispatch = useDispatch()
+    // const state = useSelectorWithType(state => state.auth)
 
-    const tempSubmit = () => console.log("regForm")
+    const onSubmit = (e: AuthDto) => {
+        const obj = {
+            email: e.email,
+            name: e.name,
+            password: e.password
+        }
+        dispatch(registerThunk(obj))
+    }
 
     return (
-        <form ref={ref} onSubmit={handleSubmit(tempSubmit)}>
+        <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <label htmlFor="name">Имя</label>
                 <input {...register("name", {

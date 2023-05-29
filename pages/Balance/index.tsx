@@ -1,7 +1,5 @@
 import Head from 'next/head'
 import { Inter } from 'next/font/google'
-import BeforeAuthPage from "@/pages/beforeAuth";
-import AuthPage from "@/pages/Auth";
 
 const inter = Inter({ subsets: ['latin'] })
 
