@@ -1,13 +1,14 @@
 import s from "../styles/Auth.module.sass"
-import React, {MutableRefObject, useEffect, useRef, useState} from "react";
+import React, {LegacyRef, MutableRefObject, RefAttributes, useEffect, useRef, useState} from "react";
 import RegForm from "@/components/forms/regForm";
 import AuthForm from "@/components/forms/authForm";
 
+
 export default function AuthPage(){
-    const regForm = useRef() as MutableRefObject<HTMLElement>
-    const authForm = useRef() as MutableRefObject<HTMLElement>
-    const regBtn = useRef() as MutableRefObject<HTMLDivElement>
-    const authBtn = useRef() as MutableRefObject<HTMLDivElement>
+    const regForm = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>
+    const authForm = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>
+    const regBtn = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>
+    const authBtn = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>
 
     useEffect(() => {
         authForm.current.classList.toggle(s.animBottom)
@@ -18,8 +19,8 @@ export default function AuthPage(){
 
 
 
-    const animStart = (activeForm: MutableRefObject<HTMLElement>, activeBtn: MutableRefObject<HTMLDivElement>,
-                       passiveForm: MutableRefObject<HTMLElement>, passiveBtn: MutableRefObject<HTMLDivElement>,) => {
+    const animStart = (activeForm: MutableRefObject<HTMLDivElement>, activeBtn: MutableRefObject<HTMLDivElement>,
+                       passiveForm: MutableRefObject<HTMLDivElement>, passiveBtn: MutableRefObject<HTMLDivElement>,) => {
         activeForm.current.classList.toggle(s.animTop)
         activeBtn.current.classList.toggle(s.animBottom)
         setTimeout(() => {
@@ -42,10 +43,10 @@ export default function AuthPage(){
     return (
         <>
             <main className={s.form}>
-                <RegForm ref={regForm}/>
+                <div ref={regForm}><RegForm/></div>
                 <div ref={regBtn} onClick={() => animStart(authForm,regBtn,regForm,authBtn)}>Зарегистрироваться</div>
                 <div ref={authBtn} onClick={() => animStart(regForm,authBtn,authForm,regBtn)} >Войти</div>
-                <AuthForm ref={authForm}/>
+                <div ref={authForm}><AuthForm/></div>
             </main>
         </>
     )

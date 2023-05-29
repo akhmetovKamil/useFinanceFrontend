@@ -1,24 +1,28 @@
-import React from "react";
+import React, {LegacyRef, MutableRefObject, useRef} from "react";
 import s from "@/styles/Auth.module.sass";
 import {useForm} from "react-hook-form";
 import {AuthorizationDto} from "@/types/auth";
 import {registerThunk} from "@/store/reducers/authReducer";
 import {useDispatch} from "react-redux";
+import {UseDispatchWithType} from "@/hooks/useDispatchWithType";
 
-const AuthForm = React.forwardRef((props, ref) => {
+// const obj = {
+//     email: e.email,
+//     password: e.password,
+// }
+// dispatch(registerThunk(obj))
+// // LoginThunk
+
+
+const AuthForm = () => {
     const {handleSubmit, register, formState: {errors}} = useForm()
-    const dispatch = useDispatch()
+    const dispatch = UseDispatchWithType()
     const onSubmit = (e: AuthorizationDto) => {
-        const obj = {
-            email: e.email,
-            password: e.password
-        }
-        dispatch(registerThunk(obj))
-        // LoginThunk
+        console.log(e)
     }
-
+    // onSubmit={handleSubmit<AuthorizationDto>(onSubmit)}
     return (
-        <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
+        <form>
             <div>
                 <label htmlFor="email">Почта</label>
                 <input {...register("email", {
@@ -51,5 +55,5 @@ const AuthForm = React.forwardRef((props, ref) => {
             <input type="submit"/>
         </form>
     )
-})
+}
 export default AuthForm

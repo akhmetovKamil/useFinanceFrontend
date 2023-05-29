@@ -2,8 +2,12 @@ import {authApi} from "@/axios/api";
 import {AuthActions, AuthorizationDto, IAuthState, receivedData} from "@/types/auth";
 import {AuthActionsConst} from "@/types/constants";
 import {Dispatch} from "redux";
-import axios from "axios";
+import {AxiosResponse} from "axios";
 import {Errors} from "@/types/constants";
+import {ThunkAction} from "redux-thunk";
+import {RootState} from "@/store/reducer";
+import {AppDispatch} from "@/store/store";
+import {createAsyncThunk} from "@reduxjs/toolkit";
 
 
 export const initialState: IAuthState = {
@@ -25,14 +29,14 @@ export default function authReducer(state = initialState, action: AuthActions): 
             return state
     }
 }
+export const setRegister = (isAuth: boolean): AuthActions => ({type:AuthActionsConst.REGISTER,payload: isAuth})
+export const setFetching = (isFetching: boolean): AuthActions => ({type:AuthActionsConst.FETCH_DATA,payload: isFetching})
+export const setError = (error: string): AuthActions => ({type:AuthActionsConst.ERROR,payload: error})
 
-export const setRegister = (isAuth): AuthActions => ({type:AuthActionsConst.REGISTER,payload: isAuth})
-export const setFetching = (isFetching): AuthActions => ({type:AuthActionsConst.FETCH_DATA,payload: isFetching})
-export const setError = (error): AuthActions => ({type:AuthActionsConst.ERROR,payload: error})
-
-export const registerThunk = (obj: AuthorizationDto) => (dispatch: Dispatch<AuthActions>) => {
+//
+export const registerThunk = (obj: AuthorizationDto): ThunkAction<void, RootState, unknown, AuthActions> => (dispatch: AppDispatch) => {
     dispatch(setFetching(true))
-    authApi.register(obj).then((data: axios.AxiosResponse<receivedData>) => {
+    authApi.register(obj).then((data: AxiosResponse<receivedData>) => {
         const {refresh_token,access_token} = data.data
         dispatch(setFetching(false))
         dispatch(setRegister(true))

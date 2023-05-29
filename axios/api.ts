@@ -1,13 +1,12 @@
-import axios from "axios";
+import axios, {AxiosResponse} from "axios";
 import {AuthorizationDto, receivedData} from "@/types/auth";
 import {Errors} from "@/types/constants";
 
 const base = axios.create({
     baseURL: 'http://localhost:3002/api/auth'
 });
-
 export const authApi = {
-    register(obj : AuthorizationDto): Promise<axios.AxiosResponse<receivedData> | void>{
+    register(obj : AuthorizationDto): Promise< AxiosResponse<receivedData> | void >{
         return base.post("register",{
             email: obj.email,
             password: obj.password,
@@ -24,24 +23,24 @@ export const authApi = {
             }
         })
     },
-    login(obj){
-        return base.post("login",{
-            email: obj.email,
-            password: obj.password
-        }).then(response => response.data)
-    },
-    logout(obj){
-        return base.post("logout",{
-            headers:{
-                Authorization: `Bearer ${obj.access_token}`
-            }
-        }).then(response => response.data)
-    },
-    refresh(obj){
-        return base.post("refresh",{
-            headers:{
-                Authorization: `Bearer ${obj.refresh_token}`
-            }
-        }).then(response => response.data)
-    },
+    // login(obj){
+    //     return base.post("login",{
+    //         email: obj.email,
+    //         password: obj.password
+    //     }).then(response => response.data)
+    // },
+    // logout(obj){
+    //     return base.post("logout",{
+    //         headers:{
+    //             Authorization: `Bearer ${obj.access_token}`
+    //         }
+    //     }).then(response => response.data)
+    // },
+    // refresh(obj){
+    //     return base.post("refresh",{
+    //         headers:{
+    //             Authorization: `Bearer ${obj.refresh_token}`
+    //         }
+    //     }).then(response => response.data)
+    // },
 }

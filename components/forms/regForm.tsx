@@ -1,13 +1,13 @@
 import React from "react";
 import s from "@/styles/Auth.module.sass";
-import {useForm} from "react-hook-form";
+import {FieldValues, useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
 import {registerThunk} from "@/store/reducers/authReducer";
 import {AuthorizationDto} from "@/types/auth";
+import {UseDispatchWithType} from "@/hooks/useDispatchWithType";
 
-
-const RegForm = React.forwardRef((props, ref) => {
+const RegForm = () =>{
     const {handleSubmit, register, formState: {errors}} = useForm()
     const dispatch = useDispatch()
     // const state = useSelectorWithType(state => state.auth)
@@ -22,7 +22,7 @@ const RegForm = React.forwardRef((props, ref) => {
     }
 
     return (
-        <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit((data: FieldValues) => onSubmit(data as AuthorizationDto))}>
             <div>
                 <label htmlFor="name">Имя</label>
                 <input {...register("name", {
@@ -63,5 +63,5 @@ const RegForm = React.forwardRef((props, ref) => {
             <input type="submit"/>
         </form>
     )
-})
+}
 export default RegForm
