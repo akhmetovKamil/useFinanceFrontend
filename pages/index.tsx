@@ -5,12 +5,33 @@ import AuthPage from "@/pages/Auth";
 import {useSelector} from "react-redux";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
 import Main from "@/pages/Main";
+import {useRouter} from "next/router";
+import Link from "next/link";
 
 const inter = Inter({subsets: ['latin']})
 
-export default function Home(){
 
-    const {isAuth} = useSelectorWithType(state => state.auth)
+// import dynamic from 'next/dynamic';
+//
+// const DynamicMain = dynamic(() => import('./Main'), {
+//     ssr: true
+// });
+
+
+const Home = () => {
+    const router = useRouter()
+    // const {isAuth} = useSelectorWithType(state => state.auth)
+    const isAuth = true
+
+
+    const handle = async () => {
+        await router.push('/Main')
+    }
+
+    // if (isAuth) {
+    //     handle();
+    // }
+
 
     return (
         <>
@@ -20,9 +41,13 @@ export default function Home(){
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            {
-                isAuth ? <Main /> : <AuthPage />
-            }
+            <Link href="/Main">Test Main link</Link>
+            <button onClick={handle}>Test Main push</button>
+            {/*{*/}
+            {/*    isAuth ? <DynamicMain /> : <AuthPage />*/}
+            {/*}*/}
+            <AuthPage/>
         </>
     )
 }
+export default Home

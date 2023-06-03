@@ -3,65 +3,99 @@ import s from "@/styles/Auth.module.sass";
 import {FieldValues, useForm} from "react-hook-form";
 import {useDispatch} from "react-redux";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
-import {registerThunk} from "@/store/reducers/authReducer";
+import {registerThunk, setRegister} from "@/store/reducers/authReducer";
 import {AuthorizationDto} from "@/types/auth";
-import {UseDispatchWithType} from "@/hooks/useDispatchWithType";
+import {useDispatchWithType} from "@/hooks/useDispatchWithType";
+import {useRouter} from "next/router";
+import {authApi} from "@/axios/auth";
 
-const RegForm = () =>{
+const RegForm = () => {
+    const router = useRouter()
     const {handleSubmit, register, formState: {errors}} = useForm()
-    const dispatch = useDispatch()
+    const dispatch = useDispatchWithType()
     // const state = useSelectorWithType(state => state.auth)
-
-    const onSubmit = (e: AuthorizationDto) => {
+    const onSubmit = async (e: AuthorizationDto) => {
         const obj = {
             email: e.email,
             name: e.name,
             password: e.password
         }
         dispatch(registerThunk(obj))
+        // await handle()
+    }
+    // const onSubmit = async () => {
+    //     const obj = {
+    //         email: "algsgsgfs2523523@gmail.com",
+    //         name: "fdsggss",
+    //         password: "123135255"
+    //     }
+    //     // authApi.register(obj)
+    //     // await authApi.refresh()
+    //     dispatch(registerThunk(obj))
+    //
+    //
+    //     // await handle()
+    // }
+    const onTempSubmit = async () => {
+        const balance = await authApi.getBalance()
+        console.log("regForm", balance)
+    }
+    const handle = async () => {
+        await router.push('/Main')
     }
 
-    return (
-        <form onSubmit={handleSubmit((data: FieldValues) => onSubmit(data as AuthorizationDto))}>
-            <div>
-                <label htmlFor="name">Имя</label>
-                <input {...register("name", {
-                    required: true,
-                    maxLength: 10,
-                    minLength: 3
+    return (<>
+            <form onSubmit={handleSubmit((data: FieldValues) => onSubmit(data as AuthorizationDto))}>
+                <div>
+                    <label htmlFor="name">Имя</label>
+                    <input {...register("name", {
+                        required: true,
+                        maxLength: 10,
+                        minLength: 3
                     })} aria-invalid={errors.name ? "true" : "false"}
-                       type="text" id="name" placeholder="Maksim"
-                       className={errors.name ? s.errorInput : "" }/>
-                {errors.name && errors.name.type=="required" && <p className={s.errorMessage}>Name is required</p>}
-                {errors.name && errors.name.type=="minLength" && <p className={s.errorMessage}>Name min length is 3</p>}
-                {errors.name && errors.name.type=="maxLength" && <p className={s.errorMessage}>Name max length is 10</p>}
-            </div>
-            <div>
-                <label htmlFor="email">Почта</label>
-                <input {...register("email", {
-                    required: true,
-                    pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
-                })} aria-invalid={errors.email ? "true" : "false"} type="text" id="email"
-                       placeholder="maksimIvanov2004@gmail.com"
-                       className={errors.email ? s.errorInput : "" }/>
-                {errors.email && errors.email.type=="required" && <p className={s.errorMessage}>Email is required</p>}
-                {errors.email && errors.email.type=="pattern" && <p className={s.errorMessage}>Wrong email pattern</p>}
-            </div>
-            <div>
-                <label htmlFor="password">Пароль</label>
-                <input {...register("password", {
-                    required: true,
-                    minLength: 8,
-                    maxLength: 16
-                })} aria-invalid={errors.password ? "true" : "false"} type="password" id="password"
-                       placeholder="qwertyuiop"
-                       className={errors.password ? s.errorInput : "" }/>
-                {errors.password && errors.password.type=="required" && <p className={s.errorMessage}>Password is required</p>}
-                {errors.password && errors.password.type=="minLength" && <p className={s.errorMessage}>Password min length is 8</p>}
-                {errors.password && errors.password.type=="maxLength" && <p className={s.errorMessage}>Password max length is 16</p>}
-            </div>
-            <input type="submit"/>
-        </form>
+                           type="text" id="name" placeholder="Maksim"
+                           className={errors.name ? s.errorInput : ""}/>
+                    {errors.name && errors.name.type == "required" &&
+                        <p className={s.errorMessage}>Name is required</p>}
+                    {errors.name && errors.name.type == "minLength" &&
+                        <p className={s.errorMessage}>Name min length is 3</p>}
+                    {errors.name && errors.name.type == "maxLength" &&
+                        <p className={s.errorMessage}>Name max length is 10</p>}
+                </div>
+                <div>
+                    <label htmlFor="email">Почта</label>
+                    <input {...register("email", {
+                        required: true,
+                        pattern: /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/
+                    })} aria-invalid={errors.email ? "true" : "false"} type="text" id="email"
+                           placeholder="maksimIvanov2004@gmail.com"
+                           className={errors.email ? s.errorInput : ""}/>
+                    {errors.email && errors.email.type == "required" &&
+                        <p className={s.errorMessage}>Email is required</p>}
+                    {errors.email && errors.email.type == "pattern" &&
+                        <p className={s.errorMessage}>Wrong email pattern</p>}
+                </div>
+                <div>
+                    <label htmlFor="password">Пароль</label>
+                    <input {...register("password", {
+                        required: true,
+                        minLength: 8,
+                        maxLength: 16
+                    })} aria-invalid={errors.password ? "true" : "false"} type="password" id="password"
+                           placeholder="qwertyuiop"
+                           className={errors.password ? s.errorInput : ""}/>
+                    {errors.password && errors.password.type == "required" &&
+                        <p className={s.errorMessage}>Password is required</p>}
+                    {errors.password && errors.password.type == "minLength" &&
+                        <p className={s.errorMessage}>Password min length is 8</p>}
+                    {errors.password && errors.password.type == "maxLength" &&
+                        <p className={s.errorMessage}>Password max length is 16</p>}
+                </div>
+                <input type="submit"/>
+
+            </form>
+            <button onClick={onTempSubmit}>Temp</button>
+        </>
     )
 }
 export default RegForm

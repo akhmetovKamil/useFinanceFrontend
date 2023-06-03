@@ -1,13 +1,9 @@
-import {authApi} from "@/axios/api";
+import {authApi} from "@/axios/auth";
 import {AuthActions, AuthorizationDto, IAuthState, receivedData} from "@/types/auth";
 import {AuthActionsConst} from "@/types/constants";
-import {Dispatch} from "redux";
 import {AxiosResponse} from "axios";
 import {Errors} from "@/types/constants";
-import {ThunkAction} from "redux-thunk";
-import {RootState} from "@/store/reducer";
-import {AppDispatch} from "@/store/store";
-import {createAsyncThunk} from "@reduxjs/toolkit";
+import {TypedDispatch, TypedThunk} from "@/store/store";
 
 
 export const initialState: IAuthState = {
@@ -15,7 +11,7 @@ export const initialState: IAuthState = {
     isFetching: false,
     error: ""
 }
-export default function authReducer(state = initialState, action: AuthActions): IAuthState {
+export default function authReducer(state = initialState, action: any): IAuthState {
     if (!action) return state;
 
     switch (action.type) {
@@ -29,12 +25,12 @@ export default function authReducer(state = initialState, action: AuthActions): 
             return state
     }
 }
+
 export const setRegister = (isAuth: boolean): AuthActions => ({type:AuthActionsConst.REGISTER,payload: isAuth})
 export const setFetching = (isFetching: boolean): AuthActions => ({type:AuthActionsConst.FETCH_DATA,payload: isFetching})
 export const setError = (error: string): AuthActions => ({type:AuthActionsConst.ERROR,payload: error})
 
-//
-export const registerThunk = (obj: AuthorizationDto): ThunkAction<void, RootState, unknown, AuthActions> => (dispatch: AppDispatch) => {
+export const registerThunk = (obj: AuthorizationDto): TypedThunk => (dispatch: TypedDispatch) => {
     dispatch(setFetching(true))
     authApi.register(obj).then((data: AxiosResponse<receivedData>) => {
         const {refresh_token,access_token} = data.data
@@ -45,17 +41,17 @@ export const registerThunk = (obj: AuthorizationDto): ThunkAction<void, RootStat
     }).catch((e) => {
         switch (e){
             case Errors.ALREADY_REGISTERED:
-                console.log("already",e)
+                console.log("then",e)
                 dispatch(setError(e))
                 return
             case Errors.SERVER_ERROR:
-                console.log("already",e)
+                console.log("then",e)
                 return
             case Errors.CONNECTION_ERROR:
-                console.log("already",e)
+                console.log("then",e)
                 return
             case Errors.UNEXPECTED_ERROR:
-                console.log("already",e)
+                console.log("then",e)
                 return
         }
     })

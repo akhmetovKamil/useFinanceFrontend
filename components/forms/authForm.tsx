@@ -4,7 +4,7 @@ import {useForm} from "react-hook-form";
 import {AuthorizationDto} from "@/types/auth";
 import {registerThunk} from "@/store/reducers/authReducer";
 import {useDispatch} from "react-redux";
-import {UseDispatchWithType} from "@/hooks/useDispatchWithType";
+import {useDispatchWithType} from "@/hooks/useDispatchWithType";
 
 // const obj = {
 //     email: e.email,
@@ -16,7 +16,7 @@ import {UseDispatchWithType} from "@/hooks/useDispatchWithType";
 
 const AuthForm = () => {
     const {handleSubmit, register, formState: {errors}} = useForm()
-    const dispatch = UseDispatchWithType()
+    const dispatch = useDispatchWithType()
     const onSubmit = (e: AuthorizationDto) => {
         console.log(e)
     }
