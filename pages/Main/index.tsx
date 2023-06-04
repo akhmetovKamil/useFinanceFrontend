@@ -1,33 +1,44 @@
 import Head from 'next/head'
-import {Inter} from 'next/font/google'
-import AuthPage from "@/pages/Auth";
-import axios from "axios";
-import {useEffect, useState} from "react";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
+import {useDispatchWithType} from "@/hooks/useDispatchWithType";
+import {logoutThunk, logoutWithErrorThunk, setAuth} from "@/store/reducers/authReducer";
+import {getBalanceThunk} from "@/store/reducers/mainReducer";
+import {useEffect} from "react";
+import {useRouter} from "next/router";
+import {mainApi} from "@/axios/main";
+import {Errors} from "@/types/constants";
 
-const token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InR3MTI0ZXQyM2p3dEBnbWFpbC5jb20iLCJpYXQiOjE2ODU4MTY5NjQsImV4cCI6MTY4NTg3MDk2NH0.e92aUYWZqTgp546xF9oEfb24tINRiYb8Om2UkA6MUOM"
-const Main = ({test}) => {
-    if (!test) {
-        return <div>Loading ...</div>
-    }
-    // const {isAuth} = useSelectorWithType(state => state.auth)
-    const [balance, setBalance] = useState(0)
-    const tempFetch = () => {
-        const res = axios.get('http://localhost:3002/api/balance/get', {
-            headers: {
-                Authorization: token
-            }
-        }).then(res => {
-            setBalance(res.data)
-            console.log("res", res)
-        })
-        console.log(test)
+const Main = () => {
+    // const Main = ({test}) => {
+    // if (!test) {
+    //     return <div>Loading ...</div>
+    // }
+    const router = useRouter()
+    const dispatch = useDispatchWithType()
+    const {isAuth,authIsFetching} = useSelectorWithType(state => state.auth)
+    const {balance,error,isFetching} = useSelectorWithType(state => state.main)
 
-    }
-
+    //На всех защищенных страницах два этих юз эффекта должны быть
     useEffect(() => {
-        console.log("enter")
+        mainApi.getBalance().then(() => dispatch(setAuth(true))).catch(e => {
+            if (e == Errors.NOT_AUTHORIZED) dispatch(logoutWithErrorThunk())
+        })
     }, [])
+    useEffect(() => {
+        if (!isAuth) router.push('/')
+    }, [isAuth])
+
+
+
+    const getBalance = async () => {
+        dispatch(getBalanceThunk())
+    }
+    const logout = () => {
+        dispatch(logoutThunk())
+    }
+    const loginPage = () => {
+        router.push('/')
+    }
 
 
     return (
@@ -38,24 +49,39 @@ const Main = ({test}) => {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <p>Main after auth</p>
-            <button onClick={tempFetch}>Get balance</button>
-            <div>Balance from client{balance}</div>
-            <div>Balance from getServerSideProps {test}</div>
+            <h1>Main after auth</h1>
+            <button onClick={logout}>Logout</button>
+            <button onClick={loginPage}>Login page</button>
+            <button onClick={getBalance}>Get balance</button>
+            {isFetching ? <div> Loading... </div> : null}
+            <div>Balance from client: {balance}</div>
+            {/*<div>Balance from getServerSideProps: {test}</div>*/}
+            <div>Errors: {error}</div>
         </>
     )
 }
 
 // export async function getServerSideProps() {
 //     // try {
-//     const data = await axios.get('http://localhost:3002/api/balance/get', {
-//         headers: {
-//             Authorization: token
-//         }
-//     })
+//     // const data = await axios.get('http://localhost:3002/api/balance/get', {
+//     //     headers: {
+//     //         Authorization: token
+//     //     }
+//     // })
+//     let data = 999
+//     try{
+//         const data = await axios.get('http://localhost:3002/api/balance/get', {
+//             headers: {
+//                 Authorization: token
+//             }
+//         })
+//     }catch (e){
+//         console.log(e)
+//     }
+//
 //     return {
 //         props: {
-//             test: data.data
+//             test: data
 //         }
 //     };
 //     // } catch (e) {
@@ -66,8 +92,6 @@ const Main = ({test}) => {
 //     //         },
 //     //     };
 //     // }
-//
-//
 // }
 
 export default Main

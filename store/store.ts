@@ -4,10 +4,12 @@ import {createWrapper} from "next-redux-wrapper";
 import {AnyAction} from "redux";
 import {combineReducers} from "redux";
 import authReducer from "@/store/reducers/authReducer";
+import mainReducer from "@/store/reducers/mainReducer";
 
 
 const rootReducer = combineReducers({
-    auth: authReducer
+    auth: authReducer,
+    main: mainReducer
 })
 
 export const makeStore = () =>  configureStore({

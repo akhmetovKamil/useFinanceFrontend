@@ -1,51 +1,29 @@
 import React from "react";
 import s from "@/styles/Auth.module.sass";
 import {FieldValues, useForm} from "react-hook-form";
-import {useDispatch} from "react-redux";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
-import {registerThunk, setRegister} from "@/store/reducers/authReducer";
-import {AuthorizationDto} from "@/types/auth";
+import {registerThunk} from "@/store/reducers/authReducer";
+import {AuthDto} from "@/types/auth";
 import {useDispatchWithType} from "@/hooks/useDispatchWithType";
 import {useRouter} from "next/router";
-import {authApi} from "@/axios/auth";
 
 const RegForm = () => {
     const router = useRouter()
     const {handleSubmit, register, formState: {errors}} = useForm()
     const dispatch = useDispatchWithType()
-    // const state = useSelectorWithType(state => state.auth)
-    const onSubmit = async (e: AuthorizationDto) => {
+    const {error} = useSelectorWithType(state => state.auth)
+    const onSubmit = async (e: AuthDto) => {
         const obj = {
             email: e.email,
             name: e.name,
             password: e.password
         }
-        dispatch(registerThunk(obj))
-        // await handle()
-    }
-    // const onSubmit = async () => {
-    //     const obj = {
-    //         email: "algsgsgfs2523523@gmail.com",
-    //         name: "fdsggss",
-    //         password: "123135255"
-    //     }
-    //     // authApi.register(obj)
-    //     // await authApi.refresh()
-    //     dispatch(registerThunk(obj))
-    //
-    //
-    //     // await handle()
-    // }
-    const onTempSubmit = async () => {
-        const balance = await authApi.getBalance()
-        console.log("regForm", balance)
-    }
-    const handle = async () => {
-        await router.push('/Main')
+        await dispatch(registerThunk(obj))
     }
 
+
     return (<>
-            <form onSubmit={handleSubmit((data: FieldValues) => onSubmit(data as AuthorizationDto))}>
+            <form onSubmit={handleSubmit((data: FieldValues) => onSubmit(data as AuthDto))}>
                 <div>
                     <label htmlFor="name">Имя</label>
                     <input {...register("name", {
@@ -94,7 +72,7 @@ const RegForm = () => {
                 <input type="submit"/>
 
             </form>
-            <button onClick={onTempSubmit}>Temp</button>
+            <div>{error}</div>
         </>
     )
 }

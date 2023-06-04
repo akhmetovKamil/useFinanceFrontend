@@ -1,37 +1,31 @@
 import Head from 'next/head'
 import {Inter} from 'next/font/google'
-import React from "react";
+import React, {useEffect} from "react";
 import AuthPage from "@/pages/Auth";
-import {useSelector} from "react-redux";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
-import Main from "@/pages/Main";
 import {useRouter} from "next/router";
-import Link from "next/link";
+import {getBalanceThunk} from "@/store/reducers/mainReducer";
+import {useDispatchWithType} from "@/hooks/useDispatchWithType";
+import {mainApi} from "@/axios/main";
+import {Errors} from "@/types/constants";
+import {logoutThunk, logoutWithErrorThunk, setAuth} from "@/store/reducers/authReducer";
 
 const inter = Inter({subsets: ['latin']})
 
 
-// import dynamic from 'next/dynamic';
-//
-// const DynamicMain = dynamic(() => import('./Main'), {
-//     ssr: true
-// });
-
-
 const Home = () => {
     const router = useRouter()
-    // const {isAuth} = useSelectorWithType(state => state.auth)
-    const isAuth = true
+    const dispatch = useDispatchWithType()
+    const {isAuth} = useSelectorWithType(state => state.auth)
 
-
-    const handle = async () => {
-        await router.push('/Main')
-    }
-
-    // if (isAuth) {
-    //     handle();
-    // }
-
+    useEffect(() => {
+        mainApi.getBalance().then(() => dispatch(setAuth(true))).catch(e => {
+            if (e == Errors.NOT_AUTHORIZED) dispatch(logoutWithErrorThunk())
+        })
+    }, [])
+    useEffect(() => {
+        if (isAuth) router.push('/Main')
+    }, [isAuth])
 
     return (
         <>
@@ -41,11 +35,6 @@ const Home = () => {
                 <meta name="viewport" content="width=device-width, initial-scale=1"/>
                 <link rel="icon" href="/favicon.ico"/>
             </Head>
-            <Link href="/Main">Test Main link</Link>
-            <button onClick={handle}>Test Main push</button>
-            {/*{*/}
-            {/*    isAuth ? <DynamicMain /> : <AuthPage />*/}
-            {/*}*/}
             <AuthPage/>
         </>
     )

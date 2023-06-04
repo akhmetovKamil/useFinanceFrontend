@@ -1,6 +1,6 @@
 import {AuthActionsConst} from "@/types/constants";
 
-export interface AuthorizationDto {
+export interface AuthDto {
     email: string,
     name?: string,
     password: string
@@ -8,11 +8,11 @@ export interface AuthorizationDto {
 
 export interface IAuthState {
     isAuth: boolean,
-    isFetching: boolean,
+    authIsFetching: boolean,
     error: string
 }
 
-export interface receivedData {
+export interface receivedTokens {
     access_token: string,
     refresh_token: string
 }
