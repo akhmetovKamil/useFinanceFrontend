@@ -1,55 +1,88 @@
 .form
-  width: 100vw
-  height: 100vh
-  //background: #8389DA
-  background: white
-  font-size: 20px
-  display: flex
-  flex-direction: row
-  justify-content: center
-  align-items: center
-  gap: 100px
-  color: white
+	font-family: 'Inter', sans-serif
+	background-image: url('/bg1.jpg')
+	background-position: center
+	background-repeat: no-repeat
+	background-size: cover
+	width: 100vw
+	height: 100vh
+	font-size: 20px
+	display: flex
+	flex-direction: row
+	justify-content: center
+	align-items: center
+	gap: 100px
+	color: white
 
+	>div
+		margin: 100px
+		width: 700px
+		height: 700px
+		border-radius: 100%
+		background: rgba(46, 28, 77, 0.13)
+		backdrop-filter: blur(35px)
+		box-shadow: 5px 5px 22px rgba(0, 0, 0, 0.25)
+		display: flex
+		flex-direction: column
+		justify-content: center
+		align-items: center
+		transition: 1s
 
+		>form
+			display: grid
+			grid-template-columns: 100%
+			justify-content: center
+			width: 100%
+			padding-top: 100px
 
+			.btn
+				all: unset
+				cursor: pointer
+				width: 35%
+				margin-top: 10px
+				background-color: #A839FF
+				color: white
+				height: 65px
+				font-weight: bold
+				border-radius: 12px
+				text-align: center
+				transition: 0.5s
+			
+			.btn:hover
+				background-color: #b961fd
+				border-radius: 10px
 
-  >div
-    margin: 100px
-    width: 50%
-    height: 70vh
-    border-radius: 100%
-    //background: #454777
-    background: black
-    display: flex
-    flex-direction: column
-    justify-content: center
-    align-items: center
-    transition: 1s
-    opacity: 1
+			>div
+				display: flex
+				justify-content: center
+				margin-bottom: 40px
+				width: 100%
+				
+				>input
+					all: unset
+					width: 60%
+					height: 65px
+					font-size: 22px
+					background-color: rgba(0, 0, 0, 0.31)
+					border-radius: 19px
+					color: white
+					padding-left: 35px
+					transition: 0.3s
 
+				>input::placeholder
+					color: #bababa
+					font-size: 19px
+				
+				>input:focus
+					background-color: rgba(0, 0, 0, 0.482)
 
-    input
-      all: unset
-      margin-bottom: 30px
-      width: 40%
-      height: 2%
-      opacity: 80%
-      padding: 20px
-      font-size: 19px
-      text-align: center
-      //background: #8C8EAC
-      background: white
-      color: black
-      border-radius: 10%
+		.errorInput
+			border: darkred 1px solid
 
-    .errorInput
-      border: darkred 5px solid
-
-    .errorMessage
-      background: blue
+		.errorMessage
+			background: blue
 
 .animTop
-  transform: translateY(-100%)
+	transform: translateY(-120%)
 .animBottom
-  transform: translateY(100%)
+	transform: translateY(120%)
