@@ -16,6 +16,7 @@ const RegForm = () => {
   } = useForm();
   const dispatch = useDispatchWithType();
   const { error } = useSelectorWithType(state => state.auth);
+  const { isAuth, authIsFetching } = useSelectorWithType(state => state.auth);
   const onSubmit = async (e: AuthDto) => {
     console.log(e);
     const obj = {
@@ -34,7 +35,6 @@ const RegForm = () => {
         )}
       >
         <div>
-          <label htmlFor='name'>Имя</label>
           <input
             {...register('name', {
               required: true,
@@ -44,8 +44,8 @@ const RegForm = () => {
             aria-invalid={errors.name ? 'true' : 'false'}
             type='text'
             id='name'
-            placeholder='Maksim'
-            className={errors.name ? s.errorInput : ''}
+            placeholder='Имя'
+            className={errors.name || error ? s.errorInput : ''}
           />
           {errors.name && errors.name.type == 'required' && (
             <p className={s.errorMessage}>Name is required</p>
@@ -58,7 +58,6 @@ const RegForm = () => {
           )}
         </div>
         <div>
-          <label htmlFor='email'>Почта</label>
           <input
             {...register('email', {
               required: true,
@@ -67,8 +66,8 @@ const RegForm = () => {
             aria-invalid={errors.email ? 'true' : 'false'}
             type='text'
             id='email'
-            placeholder='maksimIvanov2004@gmail.com'
-            className={errors.email ? s.errorInput : ''}
+            placeholder='Email'
+            className={errors.email || error ? s.errorInput : ''}
           />
           {errors.email && errors.email.type == 'required' && (
             <p className={s.errorMessage}>Email is required</p>
@@ -78,7 +77,6 @@ const RegForm = () => {
           )}
         </div>
         <div>
-          <label htmlFor='password'>Пароль</label>
           <input
             {...register('password', {
               required: true,
@@ -88,8 +86,8 @@ const RegForm = () => {
             aria-invalid={errors.password ? 'true' : 'false'}
             type='password'
             id='password'
-            placeholder='qwertyuiop'
-            className={errors.password ? s.errorInput : ''}
+            placeholder='Пароль'
+            className={errors.password || error ? s.errorInput : ''}
           />
           {errors.password && errors.password.type == 'required' && (
             <p className={s.errorMessage}>Password is required</p>
@@ -101,9 +99,15 @@ const RegForm = () => {
             <p className={s.errorMessage}>Password max length is 16</p>
           )}
         </div>
-        <input type='submit' />
+        <div className={s.error_text}>{error}</div>
+        <div>
+          {authIsFetching ? (
+            <input type='submit' className={s.btn} value='Подождите' disabled />
+          ) : (
+            <input type='submit' className={s.btn} value='Отправить' />
+          )}
+        </div>
       </form>
-      <div>{error}</div>
     </>
   );
 };
