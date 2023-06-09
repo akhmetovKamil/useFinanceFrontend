@@ -16,6 +16,7 @@ const RegForm = () => {
   } = useForm();
   const dispatch = useDispatchWithType();
   const { error } = useSelectorWithType(state => state.auth);
+  const { isAuth, authIsFetching } = useSelectorWithType(state => state.auth);
   const onSubmit = async (e: AuthDto) => {
     console.log(e);
     const obj = {
@@ -44,7 +45,7 @@ const RegForm = () => {
             type='text'
             id='name'
             placeholder='Имя'
-            className={errors.name ? s.errorInput : ''}
+            className={errors.name || error ? s.errorInput : ''}
           />
           {errors.name && errors.name.type == 'required' && (
             <p className={s.errorMessage}>Name is required</p>
@@ -66,7 +67,7 @@ const RegForm = () => {
             type='text'
             id='email'
             placeholder='Email'
-            className={errors.email ? s.errorInput : ''}
+            className={errors.email || error ? s.errorInput : ''}
           />
           {errors.email && errors.email.type == 'required' && (
             <p className={s.errorMessage}>Email is required</p>
@@ -86,7 +87,7 @@ const RegForm = () => {
             type='password'
             id='password'
             placeholder='Пароль'
-            className={errors.password ? s.errorInput : ''}
+            className={errors.password || error ? s.errorInput : ''}
           />
           {errors.password && errors.password.type == 'required' && (
             <p className={s.errorMessage}>Password is required</p>
@@ -98,11 +99,15 @@ const RegForm = () => {
             <p className={s.errorMessage}>Password max length is 16</p>
           )}
         </div>
+        <div className={s.error_text}>{error}</div>
         <div>
-          <input type='submit' className={s.btn} />
+          {authIsFetching ? (
+            <input type='submit' className={s.btn} value='Подождите' disabled />
+          ) : (
+            <input type='submit' className={s.btn} value='Отправить' />
+          )}
         </div>
       </form>
-      <div className={s.error_text}>{error}</div>
     </>
   );
 };

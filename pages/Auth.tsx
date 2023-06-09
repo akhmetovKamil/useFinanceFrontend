@@ -9,13 +9,14 @@ import React, {
 } from 'react';
 import RegForm from '@/components/forms/regForm';
 import AuthForm from '@/components/forms/authForm';
+import { useSelectorWithType } from '@/hooks/useSelectorWithType';
 
 export default function AuthPage() {
   const regForm = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
   const authForm = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
   const regBtn = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
   const authBtn = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
-
+  const { isAuth, authIsFetching } = useSelectorWithType(state => state.auth);
   useEffect(() => {
     authForm.current.classList.toggle(s.animBottom);
     regBtn.current.classList.toggle(s.animTop);

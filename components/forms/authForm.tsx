@@ -2,7 +2,7 @@ import React from 'react';
 import s from '@/styles/Auth.module.sass';
 import { FieldValues, useForm } from 'react-hook-form';
 import { AuthDto } from '@/types/auth';
-import { loginThunk } from '@/store/reducers/authReducer';
+import { initialState, loginThunk } from '@/store/reducers/authReducer';
 import { useDispatchWithType } from '@/hooks/useDispatchWithType';
 import { useRouter } from 'next/router';
 import { useSelectorWithType } from '@/hooks/useSelectorWithType';
@@ -15,6 +15,7 @@ const AuthForm = () => {
     formState: { errors },
   } = useForm();
   const dispatch = useDispatchWithType();
+  const { isAuth, authIsFetching } = useSelectorWithType(state => state.auth);
   const { error } = useSelectorWithType(state => state.auth);
   const onSubmit = async (e: AuthDto) => {
     const obj = {
@@ -41,7 +42,7 @@ const AuthForm = () => {
             type='text'
             id='email'
             placeholder='Email'
-            className={errors.email ? s.errorInput : ''}
+            className={errors.email || error ? s.errorInput : ''}
           />
           {errors.email && errors.email.type == 'required' && (
             <p className={s.errorMessage}>Email is required</p>
@@ -61,7 +62,7 @@ const AuthForm = () => {
             type='password'
             id='password'
             placeholder='Пароль'
-            className={errors.password ? s.errorInput : ''}
+            className={errors.password || error ? s.errorInput : ''}
           />
           {errors.password && errors.password.type == 'required' && (
             <p className={s.errorMessage}>Password is required</p>
@@ -75,7 +76,11 @@ const AuthForm = () => {
         </div>
         <div className={s.error_text}>{error}</div>
         <div>
-          <input type='submit' className={s.btn} />
+          {authIsFetching ? (
+            <input type='submit' className={s.btn} value='Подождите' disabled />
+          ) : (
+            <input type='submit' className={s.btn} value='Отправить' />
+          )}
         </div>
       </form>
     </>
