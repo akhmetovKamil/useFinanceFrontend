@@ -73,11 +73,11 @@ const AuthForm = () => {
             <p className={s.errorMessage}>Password max length is 16</p>
           )}
         </div>
+        <div className={s.error_text}>{error}</div>
         <div>
           <input type='submit' className={s.btn} />
         </div>
       </form>
-      <div>{error}</div>
     </>
   );
 };

@@ -102,7 +102,7 @@ const RegForm = () => {
           <input type='submit' className={s.btn} />
         </div>
       </form>
-      <div>{error}</div>
+      <div className={s.error_text}>{error}</div>
     </>
   );
 };
