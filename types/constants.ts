@@ -12,7 +12,8 @@ export enum AuthActionsConst {
     LOGOUT = "auth/LOGOUT",
     REFRESH = "auth/REFRESH",
     FETCH_DATA = "auth/FETCH_DATA",
-    ERROR = "auth/ERROR"
+    ERROR = "auth/ERROR",
+    CHECK_AUTH = "auth/CHECK_AUTH",
 }
 export enum MainActionsConst {
     GET_BALANCE = "main/GET_BALANCE",

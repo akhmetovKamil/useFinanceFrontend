@@ -1,7 +1,6 @@
 import {Errors, MainActionsConst} from "@/types/constants";
 import {IMainState, MainActions} from "@/types/main";
 import {TypedDispatch, TypedThunk} from "@/store/store";
-import {AxiosResponse} from "axios";
 import {mainApi} from "@/axios/main";
 import {logoutWithErrorThunk} from "@/store/reducers/authReducer";
 
@@ -32,8 +31,8 @@ export const setError = (error: string): MainActions => ({type:MainActionsConst.
 
 export const getBalanceThunk = (): TypedThunk => (dispatch: TypedDispatch) => {
     dispatch(setFetching(true))
-    mainApi.getBalance().then((data: AxiosResponse<number>) => {
-        dispatch(setBalance(data.data))
+    mainApi.getBalance().then((data: number) => {
+        dispatch(setBalance(data))
         dispatch(setFetching(false))
     }).catch(e => {
         if (e == Errors.NOT_AUTHORIZED) dispatch(logoutWithErrorThunk()) //При каждой ошибке NOT_AUTHORIZED надо диспатчить этот экшен
