@@ -1,14 +1,16 @@
 import {authApi} from "@/axios/auth";
 import {AuthActions, AuthDto, IAuthState, receivedTokens} from "@/types/auth";
-import {AuthActionsConst} from "@/types/constants";
+import {AuthActionsConst, Errors} from "@/types/constants";
 import {AxiosResponse} from "axios";
 import {TypedDispatch, TypedThunk} from "@/store/store";
+import {mainApi} from "@/axios/main";
 
 
 export const initialState: IAuthState = {
     isAuth: false,
     authIsFetching: false,
-    error: ""
+    error: "",
+    isCheckingAuth: true
 }
 export default function authReducer(state = initialState, action: any): IAuthState {
     if (!action) return state;
@@ -20,6 +22,8 @@ export default function authReducer(state = initialState, action: any): IAuthSta
             return {...state, authIsFetching: action.payload}
         case AuthActionsConst.ERROR:
             return {...state, error: action.payload}
+        case AuthActionsConst.CHECK_AUTH:
+            return {...state, isCheckingAuth: action.payload}
         default:
             return state
     }
@@ -27,11 +31,12 @@ export default function authReducer(state = initialState, action: any): IAuthSta
 
 
 export const setAuth = (isAuth: boolean): AuthActions => ({type: AuthActionsConst.REGISTER, payload: isAuth})
-export const setFetching = (isFetching: boolean): AuthActions => ({
+export const setFetching = (authIsFetching: boolean): AuthActions => ({
     type: AuthActionsConst.FETCH_DATA,
-    payload: isFetching
+    payload: authIsFetching
 })
 export const setError = (error: string): AuthActions => ({type: AuthActionsConst.ERROR, payload: error})
+export const setChecking = (isChecking: boolean): AuthActions => ({type: AuthActionsConst.CHECK_AUTH, payload: isChecking})
 
 export const registerThunk = (obj: AuthDto): TypedThunk => (dispatch: TypedDispatch) => {
     dispatch(setFetching(true))
@@ -71,10 +76,24 @@ export const logoutThunk = (): TypedThunk => (dispatch: TypedDispatch) => {
         dispatch(setError(e))
     })
 }
-
 export const logoutWithErrorThunk = (): TypedThunk => (dispatch: TypedDispatch) => {
     dispatch(setAuth(false))
     localStorage.removeItem("access_token")
     localStorage.removeItem("refresh_token")
 
+}
+
+export const checkAuthThunk = (): TypedThunk => (dispatch: TypedDispatch) => {
+    dispatch(setFetching(true))
+    dispatch(setChecking(true))
+    mainApi.getBalance().then((data: number) => {
+        dispatch(setAuth(true))
+        dispatch(setFetching(false))
+        dispatch(setChecking(false))
+    }).catch(e => {
+        if (e == Errors.NOT_AUTHORIZED) dispatch(logoutWithErrorThunk())
+        dispatch(setError(""))
+        dispatch(setFetching(false))
+        dispatch(setChecking(false))
+    })
 }

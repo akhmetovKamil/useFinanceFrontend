@@ -4,11 +4,9 @@ import React, {useEffect} from "react";
 import AuthPage from "@/pages/Auth";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
 import {useRouter} from "next/router";
-import {getBalanceThunk} from "@/store/reducers/mainReducer";
-import {useDispatchWithType} from "@/hooks/useDispatchWithType";
-import {mainApi} from "@/axios/main";
-import {Errors} from "@/types/constants";
-import {logoutThunk, logoutWithErrorThunk, setAuth} from "@/store/reducers/authReducer";
+import {useDispatchWithType} from "@/hooks/useDispatchWithType"
+import {checkAuthThunk} from "@/store/reducers/authReducer";
+import CheckAuthLoadingLayout from "@/components/CheckAuthLoading";
 
 const inter = Inter({subsets: ['latin']})
 
@@ -16,16 +14,19 @@ const inter = Inter({subsets: ['latin']})
 const Home = () => {
     const router = useRouter()
     const dispatch = useDispatchWithType()
-    const {isAuth} = useSelectorWithType(state => state.auth)
+    const {isAuth,isCheckingAuth} = useSelectorWithType(state => state.auth)
 
     useEffect(() => {
-        mainApi.getBalance().then(() => dispatch(setAuth(true))).catch(e => {
-            if (e == Errors.NOT_AUTHORIZED) dispatch(logoutWithErrorThunk())
-        })
+        dispatch(checkAuthThunk())
     }, [])
     useEffect(() => {
-        if (isAuth) router.push('/Main')
-    }, [isAuth])
+        if (isAuth && !isCheckingAuth) router.push('/Main')
+    }, [isAuth,isCheckingAuth])
+    console.log("/Auth ", isCheckingAuth,isAuth)
+    if (isCheckingAuth || isAuth){
+        return <CheckAuthLoadingLayout/>
+    }
+
 
     return (
         <>
