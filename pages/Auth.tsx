@@ -10,13 +10,20 @@ import React, {
 import RegForm from '@/components/forms/regForm';
 import AuthForm from '@/components/forms/authForm';
 import { useSelectorWithType } from '@/hooks/useSelectorWithType';
+import {useDispatchWithType} from "@/hooks/useDispatchWithType";
+import {setError} from "@/store/reducers/authReducer";
 
 export default function AuthPage() {
   const regForm = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
   const authForm = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
   const regBtn = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
   const authBtn = useRef<HTMLDivElement>() as MutableRefObject<HTMLDivElement>;
+
   const { isAuth, authIsFetching } = useSelectorWithType(state => state.auth);
+  const dispatch = useDispatchWithType()
+  const [isAnimation,setIsAnimation] = useState(false)
+  const [isClosedForm,setIsClosedForm] = useState(false)
+
   useEffect(() => {
     authForm.current.classList.toggle(s.animBottom);
     regBtn.current.classList.toggle(s.animTop);
@@ -30,29 +37,37 @@ export default function AuthPage() {
     passiveForm: MutableRefObject<HTMLDivElement>,
     passiveBtn: MutableRefObject<HTMLDivElement>
   ) => {
-    activeForm.current.classList.toggle(s.animTop);
-    activeBtn.current.classList.toggle(s.animBottom);
-    setTimeout(() => {
-      activeForm.current.style.display = 'none';
-      passiveBtn.current.style.display = 'flex';
-      activeBtn.current.style.display = 'none';
-      passiveForm.current.style.display = 'flex';
+    if (!isAnimation){
+      dispatch(setError(""))
+      activeForm.current.classList.toggle(s.animTop);
+      activeBtn.current.classList.toggle(s.animBottom);
+      setIsAnimation(true)
       setTimeout(() => {
-        passiveBtn.current.classList.toggle(s.animTop);
-        activeForm.current.classList.toggle(s.animTop);
-        activeForm.current.classList.toggle(s.animBottom);
-        passiveForm.current.classList.toggle(s.animBottom);
-        activeBtn.current.classList.toggle(s.animBottom);
-        activeBtn.current.classList.toggle(s.animTop);
-      }, 100);
-    }, 1000);
+        setIsClosedForm(true)
+        activeForm.current.style.display = 'none';
+        passiveBtn.current.style.display = 'flex';
+        activeBtn.current.style.display = 'none';
+        passiveForm.current.style.display = 'flex';
+        setTimeout(() => {
+          passiveBtn.current.classList.toggle(s.animTop);
+          activeForm.current.classList.toggle(s.animTop);
+          activeForm.current.classList.toggle(s.animBottom);
+          passiveForm.current.classList.toggle(s.animBottom);
+          activeBtn.current.classList.toggle(s.animBottom);
+          activeBtn.current.classList.toggle(s.animTop);
+          setIsAnimation(false)
+          setIsClosedForm(false)
+        }, 100);
+      }, 1000);
+    }
+
   };
 
   return (
     <>
       <main className={s.form}>
         <div ref={regForm}>
-          <RegForm />
+          <RegForm isClosedForm={isClosedForm}/>
         </div>
         <div
           ref={regBtn}
@@ -67,7 +82,7 @@ export default function AuthPage() {
           Войти
         </div>
         <div ref={authForm}>
-          <AuthForm />
+          <AuthForm isClosedForm={isClosedForm}/>
         </div>
       </main>
     </>

@@ -9,7 +9,8 @@ export interface AuthDto {
 export interface IAuthState {
     isAuth: boolean,
     authIsFetching: boolean,
-    error: string
+    error: string,
+    isCheckingAuth: boolean
 }
 
 export interface receivedTokens {
@@ -23,4 +24,5 @@ interface logoutAction { type: AuthActionsConst.LOGOUT }
 interface refreshAction { type: AuthActionsConst.REFRESH }
 interface fetchDataAction { type: AuthActionsConst.FETCH_DATA, payload: boolean }
 interface errorAction { type: AuthActionsConst.ERROR, payload: string }
-export type AuthActions = registerAction | loginAction | logoutAction | refreshAction | fetchDataAction | errorAction
+interface checkAuthAction { type: AuthActionsConst.CHECK_AUTH, payload: boolean }
+export type AuthActions = registerAction | loginAction | logoutAction | refreshAction | fetchDataAction | errorAction | checkAuthAction
