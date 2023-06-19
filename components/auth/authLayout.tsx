@@ -1,4 +1,4 @@
-import React, {useEffect} from "react"
+import React, {ReactNode, useEffect} from "react"
 import {checkAuthThunk} from "@/store/reducers/authReducer";
 import {useDispatchWithType} from "@/hooks/useDispatchWithType";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
@@ -6,7 +6,7 @@ import {useRouter} from "next/router";
 import CheckAuthLoadingLayout from "@/components/CheckAuthLoading";
 
 
-const AuthLayout = ({children}) => {
+const AuthLayout = ({children}:{children:ReactNode}) => {
     const dispatch = useDispatchWithType()
     const {isAuth,isCheckingAuth} = useSelectorWithType(state => state.auth)
     const router = useRouter()
@@ -15,7 +15,7 @@ const AuthLayout = ({children}) => {
         dispatch(checkAuthThunk())
     }, [])
     useEffect(() => {
-        if (!isAuth && !isCheckingAuth) router.push('/')
+        if (!isAuth && !isCheckingAuth) router.push('/auth')
     }, [isAuth,isCheckingAuth])
 
 
