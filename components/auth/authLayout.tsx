@@ -3,7 +3,7 @@ import {checkAuthThunk} from "@/store/reducers/authReducer";
 import {useDispatchWithType} from "@/hooks/useDispatchWithType";
 import {useSelectorWithType} from "@/hooks/useSelectorWithType";
 import {useRouter} from "next/router";
-import CheckAuthLoadingLayout from "@/components/CheckAuthLoading";
+import CheckAuthLoadingLayout from "@/components/auth/CheckAuthLoading";
 
 
 const AuthLayout = ({children}:{children:ReactNode}) => {
