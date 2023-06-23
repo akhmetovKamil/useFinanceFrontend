@@ -1,0 +1,81 @@
+.header
+  padding: 1rem
+  font-family: "Inter"
+  background-color: none
+  height: 70px
+  display: grid
+  grid-template-columns: 1fr 2fr 1fr
+  grid-template-rows: 1fr
+  grid-column-gap: 5px
+  grid-row-gap: 0px
+  align-items: center
+  justify-items: center
+  color: #E0E0E0
+
+  @media screen and (max-width: 768px)
+    grid-template-columns: 1fr 1fr
+  .lk
+    width: 100%
+    display: flex
+    justify-content: flex-end
+    padding-right: 10%
+    cursor: pointer
+    
+    .hlogout
+      
+      @media screen and (max-width: 768px)
+        visibility: hidden    
+    
+  .logo
+    width: 100%
+    display: flex
+    justify-content: flex-start
+    padding-left: 10%
+
+  .hbtn
+    all: unset
+    display: none
+    visibility: hidden
+    cursor: pointer
+    background-color: rgba(0, 0, 0, 0)
+      
+    @media screen and (max-width: 768px)
+      display: block
+      visibility: visible
+      margin-left: 1rem
+  
+  .linkList
+    grid-column-start: 2
+    grid-column-end: 3
+    width: 60%
+    display: flex
+    justify-content: center
+    align-items: center
+    text-align: center
+
+    @media screen and (max-width: 768px)
+      position: fixed
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      display: grid
+      transition: 1s
+      transform: translateY(-100vh)
+      background-color: rgba(0,0,0, 0.3)
+      backdrop-filter: blur(5px)
+
+    a
+      margin-left: 1rem
+      font-size: 16px
+      padding: 15px
+      border-radius: 15px
+      transition: 0.5s
+    
+    a:hover
+      background-color:  #272727
+
+    .activeLink
+      color: #7896FF
+      font-weight: bold
+      font-size: 18px
