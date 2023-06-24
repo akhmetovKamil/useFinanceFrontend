@@ -1,0 +1,49 @@
+.btnDiv
+  position: relative
+  z-index: 1
+  display: flex
+  margin-top: 100px
+  height: 60px
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+  .btnBG
+    padding: 0
+    margin: 0
+    content: ""
+    width: 200px
+    height: 100%
+    position: absolute
+    background: linear-gradient(-45deg, #B24CCC, #3787FF)
+    background-size: 400% 400%
+    border-radius: 12px
+    animation: gradient 3s ease infinite
+
+  .btn
+    all: unset
+    cursor: pointer
+    font-family: "Inter"
+    font-size: 15px
+    font-weight: 400
+    padding: 0
+    margin: 0
+    position: absolute
+    background: black
+    width: 197px
+    height: 96%
+    text-align: center
+    border-radius: 11px
+    transition: 0.3s
+
+    &:hover
+      background: transparent
+      color: black
+
+@keyframes gradient
+  0%
+    background-position: 0% 50%
+  50%
+    background-position: 100% 50%
+  100%
+    background-position: 0% 50%
