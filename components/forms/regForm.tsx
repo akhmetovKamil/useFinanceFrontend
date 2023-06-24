@@ -8,7 +8,7 @@ import {useDispatchWithType} from '@/hooks/useDispatchWithType';
 import {useRouter} from 'next/router';
 
 
-const RegForm = ({isClosedForm}: boolean) => {
+const RegForm = ({isClosedForm}: {isClosedForm:boolean}) => {
     const {
         handleSubmit,
         register,
