@@ -2,6 +2,7 @@ import HeaderLayout from "@/components/headerLayout";
 import Head from "next/head";
 import React from "react";
 import s from "@/styles/Home.module.sass";
+import GradButton from "@/components/UI/GradButton/GradButton";
 
 const Home = () => {
   return (
@@ -27,7 +28,7 @@ const Home = () => {
               распорядиться своими деньгами и достичь своих финансовых целей.
             </p>
           </div>
-
+          <GradButton text="Авторизоваться" />
           <video autoPlay muted loop className={s.bVideo}>
             <source src="bgv.mp4" type="video/mp4" />
           </video>
