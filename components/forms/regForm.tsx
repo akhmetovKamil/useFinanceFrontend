@@ -13,7 +13,7 @@ const RegForm = ({isClosedForm}: {isClosedForm:boolean}) => {
         handleSubmit,
         register,
         reset,
-        clearErrors, //Сделать чтобы пропадали ошибки при повторном нажатии на инпут
+        clearErrors, // todo Сделать чтобы пропадали ошибки при повторном нажатии на инпут
         formState: {errors},
     } = useForm();
 
