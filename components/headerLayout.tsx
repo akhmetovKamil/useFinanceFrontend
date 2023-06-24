@@ -76,7 +76,36 @@ const HeaderLayout = ({ children }: { children: ReactNode }) => {
   }
   return (
     <>
-      <div className={s.header}>not authorized</div>
+      <div className={s.header}>
+        <div className={s.logo}>
+          <h2>useFinance</h2>
+        </div>
+        <div className={s.linkList} ref={navRef}>
+          {navLinks.map((link) => (
+            <NavLink
+              key={link.path}
+              href={link.path}
+              className={router.pathname == link.path ? s.activeLink : ""}
+            >
+              {link.title}
+            </NavLink>
+          ))}
+          <NavLink href="/auth" className={s.hbtn}>
+            Войти
+          </NavLink>
+          <button className={s.hbtn} onClick={closeNav}>
+            <AiOutlineClose color="white" />
+          </button>
+        </div>
+        <div className={s.lk}>
+          <NavLink href="/auth" className={s.hlogout}>
+            Войти
+          </NavLink>
+          <button className={s.hbtn} onClick={showNav}>
+            <TfiAlignRight color="white" />
+          </button>
+        </div>
+      </div>
       {children}
     </>
   );
