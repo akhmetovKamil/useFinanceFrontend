@@ -8,6 +8,8 @@ import { checkAuthThunk, setError } from "@/store/reducers/authReducer";
 import { useRouter } from "next/router";
 import CheckAuthLoadingLayout from "@/components/auth/CheckAuthLoading";
 import Head from "next/head";
+import PushBackButton from "@/components/pushBackButton";
+
 
 const AuthPage = () => {
   const router = useRouter();
