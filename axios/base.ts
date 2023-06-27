@@ -2,7 +2,7 @@ import axios, { AxiosHeaders, InternalAxiosRequestConfig } from "axios";
 import { Errors } from "@/types/constants";
 import { authApi } from "@/axios/auth";
 
-export const base = axios.create({ baseURL: "https://finance-service.xyz/api" });
+export const base = axios.create({ baseURL: "https://finance-service.xyz:80/api" });
 
 base.interceptors.request.use(
   async (config): Promise<InternalAxiosRequestConfig<any>> => {
