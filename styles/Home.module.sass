@@ -10,6 +10,37 @@
   z-index: -1
   filter: blur(6px) brightness(0.7)
 
+.publicInfoBox
+  font-family: "Inter"
+  display: flex
+  flex-wrap: wrap
+  width: 100%
+  justify-content: center
+  align-items: center
+  margin-top: 100px
+
+  .publicInfoContainer
+    display: grid
+    justify-content: center
+    align-items: center
+    text-align: center
+    color: white
+    width: 600px
+    height: 350px
+    margin: 10px
+    padding: 10px
+    border: 1px solid gray
+    border-radius: 12px
+    background-color: #08000e
+    box-shadow: 0 0 6px #B24CD1
+
+    h1
+      font-size: 60px
+      font-weight: 800
+
+    p
+      font-weight: 100
+
 .mainInfo
   margin-top: 12rem
   font-family: "Inter"
@@ -34,10 +65,13 @@
 
   .descriptionText
     color: rgba(232, 232, 232, 0.44)
-    font-size: 2.3vw
+    font-size: min(2.3vw, 30px)
     text-align: center
     margin-top: 4rem
     padding-left: 10vw
     padding-right: 10vw
+
+    @media screen and (max-width: 768px)
+      font-size: 20px
   
 
