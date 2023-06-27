@@ -19,6 +19,8 @@ export default function publicReducer(
   switch (action.type) {
     case PublicActionsConst.GET_PUBLICDATA:
       return { ...state, ...action.payload };
+    case PublicActionsConst.FETCH_DATA:
+      return { ...state, isFetching: action.payload };
     default:
       return state;
   }
