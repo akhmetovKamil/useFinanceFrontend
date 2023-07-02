@@ -1,4 +1,4 @@
-import s from "../../styles/Auth.module.sass";
+import s from "@/styles/Auth.module.sass";
 import React, { MutableRefObject, useEffect, useRef, useState } from "react";
 import RegForm from "@/components/forms/regForm";
 import AuthForm from "@/components/forms/authForm";
@@ -8,7 +8,7 @@ import { checkAuthThunk, setError } from "@/store/reducers/authReducer";
 import { useRouter } from "next/router";
 import CheckAuthLoadingLayout from "@/components/auth/CheckAuthLoading";
 import Head from "next/head";
-
+import BackToHomeButton from "@/components/UI/BackToHomeButton/BackToHomeButton";
 
 const AuthPage = () => {
   const router = useRouter();
@@ -108,6 +108,7 @@ const AuthWithAnimation = () => {
         <div ref={authForm}>
           <AuthForm isClosedForm={isClosedForm} />
         </div>
+        <BackToHomeButton />
       </main>
     </>
   );
