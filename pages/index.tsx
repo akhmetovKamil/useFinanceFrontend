@@ -7,8 +7,10 @@ import { useDispatchWithType } from "@/hooks/useDispatchWithType";
 import { useSelectorWithType } from "@/hooks/useSelectorWithType";
 import { getPublicDataThunk } from "@/store/reducers/publicReducer";
 import LoadingIcon from "@/components/UI/LoadingIcon/LoadingIcon";
+import { useRouter } from "next/router";
 
 const Home = () => {
+  const router = useRouter();
   const dispatch = useDispatchWithType();
   const { isFetching, usersCount, totalBalance, totalDebtsToMe, totalMyDebts } =
     useSelectorWithType((state) => state.public);
@@ -38,7 +40,12 @@ const Home = () => {
               распорядиться своими деньгами и достичь своих финансовых целей.
             </p>
           </div>
-          <GradButton text="Авторизоваться" />
+          <GradButton
+            text="Авторизоваться"
+            onClick={() => {
+              router.push("/auth ");
+            }}
+          />
           <div className={s.publicInfoBox}>
             {[
               { state: usersCount, text: "число пользователей" },
